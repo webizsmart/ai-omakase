@@ -822,6 +822,64 @@
         </div>
     </section>
 
+    <!-- EMAIL FALLBACK MODAL -->
+    <div id="email-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm">
+        <div class="bg-chef-card border border-gray-800 rounded-3xl p-6 md:p-8 max-w-lg w-full relative overflow-hidden shadow-2xl scale-95 transition-transform duration-300">
+            <div class="absolute top-0 right-0 w-32 h-32 bg-chef-600/10 rounded-full blur-3xl"></div>
+            
+            <button onclick="closeEmailModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl" aria-label="모달 닫기">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-4">
+                <div class="w-16 h-16 bg-chef-500/10 border border-chef-500/30 rounded-full flex items-center justify-center mx-auto text-chef-500 text-3xl">
+                    <i class="fa-regular fa-envelope"></i>
+                </div>
+                <h4 class="text-xl font-bold text-white">문의 메일 전송 안내</h4>
+                <p class="text-gray-400 text-sm leading-relaxed font-light">
+                    시스템 메일 프로그램이 설정되어 있지 않은 경우, 아래 간편한 방법 중 하나를 이용해 전송하실 수 있습니다.
+                </p>
+            </div>
+
+            <!-- Options Grid -->
+            <div class="mt-8 space-y-3">
+                <!-- Option 1: Web Gmail -->
+                <a id="modal-gmail-btn" target="_blank" class="w-full py-4 px-6 bg-gradient-to-r from-red-600 to-red-700 hover:from-red-500 hover:to-red-600 text-white font-bold rounded-xl flex items-center justify-between shadow-lg transition-all duration-300 transform hover:-translate-y-0.5">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-brands fa-google text-lg"></i>
+                        <span>웹 Gmail로 즉시 보내기</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-xs"></i>
+                </a>
+
+                <!-- Option 2: Copy Content -->
+                <button onclick="copyEmailContent()" class="w-full py-4 px-6 bg-gray-800 hover:bg-gray-700 text-white font-bold rounded-xl flex items-center justify-between transition-all border border-gray-700">
+                    <span class="flex items-center gap-2">
+                        <i class="fa-regular fa-copy text-lg text-chef-500"></i>
+                        <span id="modal-copy-text">문의 내용 전체 복사하기</span>
+                    </span>
+                    <i class="fa-solid fa-chevron-right text-xs text-gray-500"></i>
+                </button>
+            </div>
+
+            <!-- Manual info -->
+            <div class="mt-6 p-4 rounded-xl bg-chef-dark border border-gray-800 space-y-1.5 text-xs text-gray-400">
+                <div class="flex justify-between">
+                    <span>받는 사람:</span>
+                    <strong class="text-gray-200 select-all">webizsmart@gmail.com</strong>
+                </div>
+                <div class="flex justify-between">
+                    <span>메일 제목:</span>
+                    <strong id="modal-subject-display" class="text-gray-200 truncate max-w-[220px]"></strong>
+                </div>
+            </div>
+            
+            <p class="text-center text-[10px] text-gray-500 mt-4">
+                * 내용을 복사하신 경우 네이버/다음 메일 등에 붙여넣어 webizsmart@gmail.com으로 전송해 주세요.
+            </p>
+        </div>
+    </div>
+
     <!-- FOOTER -->
     <footer class="bg-gray-950 border-t border-gray-900 py-12 text-gray-500 text-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
@@ -1111,10 +1169,8 @@
             else if (headcount === '31+') headcountText = '30명 이상 (대규모 기업 교육)';
 
             // Prepare email
-            const recipient = "webizsmart@gmail.com";
-            const subject = encodeURIComponent(`[AI 오마카세 문의] ${company} - ${name} 담당자님`);
-            const body = encodeURIComponent(
-`안녕하세요, AI 오마카세 출강/멘토링 문의 이메일입니다.
+            const subjectText = `[AI 오마카세 문의] ${company} - ${name} 담당자님`;
+            const bodyText = `안녕하세요, AI 오마카세 출강/멘토링 문의 이메일입니다.
 
 [신청 정보]
 - 담당자 이름: ${name}
@@ -1126,12 +1182,18 @@
 
 [상세 요청사항]
 ${message}
-`
-            );
+`;
+
+            const recipient = "webizsmart@gmail.com";
+            const subject = encodeURIComponent(subjectText);
+            const body = encodeURIComponent(bodyText);
 
             // Open mailto link
             const mailtoUrl = `mailto:${recipient}?subject=${subject}&body=${body}`;
             window.location.href = mailtoUrl;
+
+            // Open fallback modal options
+            openEmailModal(subject, body, subjectText, bodyText);
 
             // Display success banner
             const banner = document.getElementById('submit-success-banner');
@@ -1142,6 +1204,41 @@ ${message}
 
             // Scroll banner smoothly into view
             banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // --- EMAIL FALLBACK MODAL LOGIC ---
+        let copiedEmailBody = '';
+
+        function openEmailModal(subject, body, subjectRaw, bodyRaw) {
+            copiedEmailBody = bodyRaw;
+            
+            // Set Gmail compose link
+            const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=webizsmart@gmail.com&su=${subject}&body=${body}`;
+            document.getElementById('modal-gmail-btn').setAttribute('href', gmailUrl);
+            
+            // Set subject display text
+            document.getElementById('modal-subject-display').textContent = subjectRaw;
+
+            // Show Modal
+            const modal = document.getElementById('email-modal');
+            modal.classList.remove('hidden');
+        }
+
+        function closeEmailModal() {
+            document.getElementById('email-modal').classList.add('hidden');
+        }
+
+        function copyEmailContent() {
+            navigator.clipboard.writeText(copiedEmailBody).then(() => {
+                const textEl = document.getElementById('modal-copy-text');
+                const orig = textEl.textContent;
+                textEl.textContent = '복사 완료!';
+                setTimeout(() => {
+                    textEl.textContent = orig;
+                }, 2000);
+            }).catch(err => {
+                alert('복사하지 못했습니다. 수동으로 복사해 주세요.');
+            });
         }
     </script>
 </body>
