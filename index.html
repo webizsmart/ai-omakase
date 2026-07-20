@@ -1,0 +1,1113 @@
+<!DOCTYPE html>
+<html lang="ko" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 오마카세(Omakase) - 라이브 현장 해결형 AI 멘토링</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+KR:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'Noto Sans KR', 'sans-serif'],
+                    },
+                    colors: {
+                        chef: {
+                            50: '#f5f3ff',
+                            100: '#ede9fe',
+                            200: '#ddd6fe',
+                            500: '#8b5cf6',
+                            600: '#7c3aed',
+                            700: '#6d28d9',
+                            800: '#5b21b6',
+                            900: '#4c1d95',
+                            dark: '#0B0F19',
+                            card: '#161D30',
+                            accent: '#F59E0B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar and animations */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B0F19;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #25304B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3B4F74;
+        }
+        .glow-effect {
+            box-shadow: 0 0 25px -5px rgba(139, 92, 246, 0.4);
+        }
+        .text-glow {
+            text-shadow: 0 0 15px rgba(139, 92, 246, 0.6);
+        }
+        .active-role {
+            background-color: #7c3aed !important;
+            border-color: #8b5cf6 !important;
+            color: #ffffff !important;
+        }
+        .active-role i {
+            color: #ffffff !important;
+        }
+        /* Custom transitions */
+        .tab-content {
+            transition: all 0.3s ease-in-out;
+        }
+        .accordion-content {
+            transition: max-height 0.3s ease-out, padding 0.3s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-chef-dark text-gray-100 font-sans selection:bg-chef-500 selection:text-white">
+
+    <!-- NAV BAR -->
+    <nav class="sticky top-0 z-50 bg-chef-dark/80 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <div class="flex items-center">
+                    <span class="text-2xl font-black tracking-tight text-white flex items-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles text-chef-500"></i>
+                        <span>AI <span class="text-chef-500">오마카세</span></span>
+                    </span>
+                    <span class="ml-3 px-2 py-0.5 text-xs font-bold bg-chef-800 text-chef-200 rounded border border-chef-600 uppercase">Live Solution</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#about" class="text-gray-300 hover:text-white transition-colors font-medium">강의 소개</a>
+                    <a href="#simulation" class="text-gray-300 hover:text-white transition-colors font-medium">즉석 처방 시뮬레이션</a>
+                    <a href="#curriculum" class="text-gray-300 hover:text-white transition-colors font-medium">커리큘럼</a>
+                    <a href="#roi" class="text-gray-300 hover:text-white transition-colors font-medium">효과 계산기</a>
+                    <a href="#faq" class="text-gray-300 hover:text-white transition-colors font-medium">자주 묻는 질문</a>
+                    <a href="#apply" class="px-5 py-2.5 rounded-full bg-gradient-to-r from-chef-600 to-indigo-600 text-white font-semibold hover:from-chef-500 hover:to-indigo-500 transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg shadow-chef-600/30">
+                        기업 출강 / 수강 문의
+                    </a>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-300 hover:text-white focus:outline-none" aria-label="메뉴 열기">
+                        <i class="fa-solid fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-chef-card border-b border-gray-800 px-4 py-4 space-y-3">
+            <a href="#about" class="block text-gray-300 hover:text-white py-2" onclick="toggleMobileMenu()">강의 소개</a>
+            <a href="#simulation" class="block text-gray-300 hover:text-white py-2" onclick="toggleMobileMenu()">즉석 처방 시뮬레이션</a>
+            <a href="#curriculum" class="block text-gray-300 hover:text-white py-2" onclick="toggleMobileMenu()">커리큘럼</a>
+            <a href="#roi" class="block text-gray-300 hover:text-white py-2" onclick="toggleMobileMenu()">효과 계산기</a>
+            <a href="#faq" class="block text-gray-300 hover:text-white py-2" onclick="toggleMobileMenu()">자주 묻는 질문</a>
+            <a href="#apply" class="block w-full text-center px-4 py-2.5 rounded-lg bg-chef-600 text-white font-semibold" onclick="toggleMobileMenu()">문의하기</a>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <header class="relative overflow-hidden pt-12 pb-24 md:pt-20 md:pb-32 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-chef-900/40 via-chef-dark to-chef-dark">
+        <!-- Background light beams -->
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-chef-600/10 rounded-full blur-[120px] pointer-events-none"></div>
+        <div class="absolute top-10 right-10 w-72 h-72 bg-blue-600/10 rounded-full blur-[100px] pointer-events-none"></div>
+        
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-chef-500/10 border border-chef-500/30 text-chef-200 text-sm font-semibold mb-6 animate-pulse">
+                <i class="fa-solid fa-bolt text-chef-accent"></i>
+                <span>교안 없는 실시간 현장 해결형 특강</span>
+            </div>
+            
+            <!-- Headline -->
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-white mb-6 leading-tight">
+                오늘 야근할 일거리,<br class="block md:hidden">
+                <span class="bg-gradient-to-r from-chef-200 via-chef-500 to-indigo-400 bg-clip-text text-transparent">현장에서 즉시</span> 해결해 드립니다.
+            </h1>
+            
+            <p class="max-w-3xl mx-auto text-lg sm:text-xl text-gray-300 font-light mb-10 leading-relaxed">
+                정형화된 PPT 교안은 버렸습니다. 당일 수강생들이 마주한 마케팅 자동화, 업무 비효율 페인포인트를 
+                <strong class="text-white font-semibold text-glow">현장 즉석 라이브 프롬프트 튜닝</strong>으로 해결해 주는 오직 하나뿐인 "업무 진통제" 강의.
+            </p>
+
+            <!-- Buttons -->
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#simulation" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gradient-to-r from-chef-600 to-indigo-600 text-white font-bold text-lg hover:from-chef-500 hover:to-indigo-500 transition-all duration-300 transform hover:-translate-y-1 shadow-lg shadow-chef-600/50 glow-effect">
+                    <i class="fa-solid fa-utensils mr-2"></i> AI 오마카세 주문하기 (체험)
+                </a>
+                <a href="#apply" class="w-full sm:w-auto px-8 py-4 rounded-xl bg-gray-800 hover:bg-gray-700 text-gray-100 font-bold text-lg transition-all border border-gray-700">
+                    <i class="fa-regular fa-calendar-check mr-2"></i> 출강 문의 / 상세 상담
+                </a>
+            </div>
+
+            <!-- Target markers -->
+            <div class="mt-20 border-t border-gray-800/80 pt-10">
+                <p class="text-xs font-semibold tracking-wider text-gray-500 uppercase mb-6">강력 추천 대상자</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-sm text-gray-400">
+                    <div class="flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl bg-chef-card border border-gray-800">
+                        <i class="fa-solid fa-bullhorn text-chef-500 text-lg"></i>
+                        <span>소재 고갈 <strong>1인 마케터</strong></span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl bg-chef-card border border-gray-800">
+                        <i class="fa-solid fa-file-invoice-dollar text-chef-500 text-lg"></i>
+                        <span>시간이 무기인 <strong>자영업자</strong></span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl bg-chef-card border border-gray-800">
+                        <i class="fa-solid fa-file-excel text-chef-500 text-lg"></i>
+                        <span>수식 지옥에 갇힌 <strong>직장인</strong></span>
+                    </div>
+                    <div class="flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl bg-chef-card border border-gray-800">
+                        <i class="fa-solid fa-lightbulb text-chef-500 text-lg"></i>
+                        <span>생산성 올릴 <strong>기획자</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- INTERACTIVE SECTION: AI OMAKASE ORDER SHEET -->
+    <section id="simulation" class="py-20 bg-chef-dark border-t border-b border-gray-900 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-chef-500 font-bold text-sm tracking-wider uppercase">Live Experience</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">
+                    🧑‍🍳 실시간 AI 오마카세 주문서
+                </h2>
+                <p class="text-gray-400">
+                    오늘 당장 해결하고 싶은 가상의 비즈니스 페인포인트를 선택해 보세요. 강사 셰프가 즉각적이고 완성도 높은 프롬프트와 해결 원포인트 레슨을 제공합니다.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                <!-- Order Sheet Form -->
+                <div class="lg:col-span-5 bg-chef-card border border-gray-800 rounded-2xl p-6 shadow-xl relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-24 h-24 bg-chef-600/10 rounded-full blur-2xl"></div>
+                    <h3 class="text-xl font-bold text-white mb-6 flex items-center gap-2 border-b border-gray-800 pb-4">
+                        <i class="fa-solid fa-clipboard-list text-chef-500"></i>
+                        <span>오마카세 맞춤식 주문</span>
+                    </h3>
+                    
+                    <!-- Role Selection -->
+                    <div class="mb-5">
+                        <label class="block text-sm font-medium text-gray-400 mb-2">1단계. 나의 주역할군을 고르세요</label>
+                        <div class="grid grid-cols-3 gap-2" id="role-container">
+                            <button type="button" onclick="selectRole('marketer')" id="btn-role-marketer" class="role-btn px-3 py-3 rounded-xl bg-chef-dark hover:bg-gray-800 text-sm font-semibold text-gray-300 border border-gray-800 active-role text-center flex flex-col items-center gap-1.5 transition-all">
+                                <i class="fa-solid fa-bullhorn text-chef-500"></i> 마케터
+                            </button>
+                            <button type="button" onclick="selectRole('office')" id="btn-role-office" class="role-btn px-3 py-3 rounded-xl bg-chef-dark hover:bg-gray-800 text-sm font-semibold text-gray-300 border border-gray-800 text-center flex flex-col items-center gap-1.5 transition-all">
+                                <i class="fa-solid fa-user-tie text-gray-400"></i> 직장인
+                            </button>
+                            <button type="button" onclick="selectRole('self')" id="btn-role-self" class="role-btn px-3 py-3 rounded-xl bg-chef-dark hover:bg-gray-800 text-sm font-semibold text-gray-300 border border-gray-800 text-center flex flex-col items-center gap-1.5 transition-all">
+                                <i class="fa-solid fa-store text-gray-400"></i> 자영업자
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Pain point selection -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-400 mb-2">2단계. 오늘 마주한 고질적인 페인포인트</label>
+                        <select id="painpoint-select" class="w-full bg-chef-dark border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-chef-500 transition-all">
+                            <!-- Dynamic options loaded by JS -->
+                        </select>
+                    </div>
+
+                    <!-- Custom input alternative -->
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-400 mb-2">혹은, 내 진짜 고민을 직접 한 줄 입력하기 (선택)</label>
+                        <textarea id="custom-painpoint" rows="2" class="w-full bg-chef-dark border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-chef-500 text-sm transition-all" placeholder="예: '이번 신제품 화장품 블로그 홍보용 글을 써야 하는데 뻔하지 않은 서론 문장 구조를 잡고 싶습니다.'"></textarea>
+                    </div>
+
+                    <button onclick="generatePrescription()" class="w-full py-4 bg-gradient-to-r from-chef-600 to-indigo-600 hover:from-chef-500 hover:to-indigo-500 rounded-xl text-white font-bold shadow-lg transition-all duration-300 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-fire text-chef-accent"></i> 실시간 프롬프트 처방전 받기
+                    </button>
+                </div>
+
+                <!-- Simulation Output -->
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="bg-[#101625] border border-gray-800 rounded-2xl p-6 shadow-xl relative min-h-[480px] flex flex-col justify-between">
+                        <!-- Header with Chef Status -->
+                        <div>
+                            <div class="flex items-center justify-between border-b border-gray-800 pb-4 mb-4">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-10 h-10 rounded-full bg-chef-600/20 border border-chef-500/30 flex items-center justify-center">
+                                        <i class="fa-solid fa-robot text-chef-500"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-white text-sm sm:text-base">AI 오마카세 셰프 레시피</h4>
+                                        <p class="text-xs text-green-400 flex items-center gap-1">
+                                            <span class="w-2 h-2 rounded-full bg-green-400 inline-block animate-ping"></span> 
+                                            <span>실시간 프롬프트 튜닝 시스템 가동중</span>
+                                        </p>
+                                    </div>
+                                </div>
+                                <button onclick="copyPrompt()" id="copy-btn" class="px-3 py-1.5 rounded-lg bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold flex items-center gap-1.5 transition-all">
+                                    <i class="fa-regular fa-clone"></i> <span>복사하기</span>
+                                </button>
+                            </div>
+
+                            <!-- Prescription Content View -->
+                            <div class="space-y-4">
+                                <div class="p-3 bg-chef-900/20 border border-chef-500/20 rounded-xl">
+                                    <span class="text-xs font-semibold text-chef-400 block mb-1">🎯 진단된 페인포인트 요약</span>
+                                    <p id="presc-pain" class="text-sm font-semibold text-gray-200">주문서를 작성한 후 '실시간 프롬프트 처방전 받기' 버튼을 클릭해 주세요.</p>
+                                </div>
+
+                                <div>
+                                    <span class="text-xs font-semibold text-chef-400 block mb-1.5">📝 즉석 최적화 프롬프트 (교안에 없는 튜닝)</span>
+                                    <div class="bg-chef-dark p-4 rounded-xl border border-gray-800 max-h-64 overflow-y-auto">
+                                        <pre class="text-xs sm:text-sm text-emerald-400 font-mono whitespace-pre-wrap select-all" id="presc-prompt">// 주문서를 선택하거나 고민을 입력하면 수강 시 셰프가 즉석에서 깎아 드릴 최강의 고강도 튜닝 프롬프트 처방전이 여기에 나타납니다.</pre>
+                                    </div>
+                                </div>
+
+                                <div class="p-4 bg-gray-900/60 rounded-xl border border-gray-800/80">
+                                    <span class="text-xs font-semibold text-amber-500 block mb-1">💡 셰프의 원포인트 레슨 (핵심 튜닝 노하우)</span>
+                                    <p id="presc-key" class="text-sm text-gray-300 leading-relaxed">-</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Floating Callout -->
+                        <div class="mt-6 pt-4 border-t border-gray-800/60 text-xs text-gray-400 flex items-center gap-2">
+                            <i class="fa-solid fa-circle-info text-chef-500"></i>
+                            <span>이 프롬프트는 실제 멘토링 수업 때 깎아내는 고도의 튜닝 프롬프트의 아주 단순한 일부에 불과합니다.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT & CURRICULUM SECTION -->
+    <section id="about" class="py-24 bg-chef-dark relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="lg:text-center max-w-3xl mx-auto mb-20">
+                <span class="text-chef-500 font-bold text-sm tracking-wider uppercase">Philosophy</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">
+                    기존의 지루한 강의들과 무엇이 다른가요?
+                </h2>
+                <p class="text-gray-400 text-lg">
+                    한 번 듣고 까먹는 도구 사용법(메뉴 설명) 수업은 가라. "오늘 내 문제를 해결하는 프롬프트 최적화" 하나로 평생 지속되는 생산성 레버리지를 만듭니다.
+                </p>
+            </div>
+
+            <!-- Features Comparison Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
+                <!-- Old Lectures -->
+                <div class="p-8 rounded-2xl bg-gray-950 border border-gray-900/80 relative">
+                    <span class="absolute top-4 right-4 text-red-500/20 text-5xl font-black">X</span>
+                    <h4 class="text-lg font-bold text-gray-400 mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-ban text-red-500"></i> 기존의 일반적인 AI/프롬프트 강의
+                    </h4>
+                    <ul class="space-y-4 text-gray-500">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-regular fa-circle-xmark text-red-500/70 mt-1"></i>
+                            <span>사전 제작된 딱딱한 교안 순서대로 단순 화면 기능 및 이론 설명</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-regular fa-circle-xmark text-red-500/70 mt-1"></i>
+                            <span>"~역할을 부여하세요" 식의 구글링하면 다 나오는 기본적 템플릿 나열</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-regular fa-circle-xmark text-red-500/70 mt-1"></i>
+                            <span>듣고 나서는 좋아 보이지만 정작 "내 진짜 고충"에 적용하려면 먹통이 됨</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-regular fa-circle-xmark text-red-500/70 mt-1"></i>
+                            <span>수강생들의 업무 배경 지식이나 실제 상황의 디테일을 무시한 일반화</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- AI Omakase -->
+                <div class="p-8 rounded-2xl bg-chef-card border border-chef-500/30 relative shadow-xl glow-effect">
+                    <span class="absolute top-4 right-4 text-chef-500/20 text-5xl font-black">O</span>
+                    <h4 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                        <i class="fa-solid fa-circle-check text-green-500"></i> 오직 AI 오마카세 멘토링
+                    </h4>
+                    <ul class="space-y-4 text-gray-300">
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-chef-500 mt-1"></i>
+                            <span>수강생이 지참한 <strong>실제 엑셀 데이터, 마케팅 기획안</strong>으로 즉석 라이브 데모</span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-chef-500 mt-1"></i>
+                            <span>상황(Context), 결과조건, 제약사항을 실시간으로 깎아 최적화하는 <strong>라이브 코딩 방식 튜닝</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-chef-500 mt-1"></i>
+                            <span>수업 끝나고 나면 당일 해결했어야 하는 밀린 업무가 <strong>실제로 처리 완료됨</strong></span>
+                        </li>
+                        <li class="flex items-start gap-2">
+                            <i class="fa-solid fa-check text-chef-500 mt-1"></i>
+                            <span>강사의 압도적 임기응변과 폭넓은 프롬프트 노하우가 빚어내는 리얼리티 쇼</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- CURRICULUM TIMELINE -->
+            <div id="curriculum" class="pt-12">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <span class="text-chef-500 font-bold text-sm tracking-wider uppercase">Course Road</span>
+                    <h3 class="text-3xl font-extrabold text-white mt-2 mb-4">
+                        상세 커리큘럼 (원데이 4시간 패키지)
+                    </h3>
+                    <p class="text-gray-400">
+                        현업에서 지친 실무자들을 위해 군더더기 없이 고강도 코칭으로 꽉 채웠습니다.
+                    </p>
+                </div>
+
+                <!-- Timeline structure -->
+                <div class="relative border-l-2 border-gray-800 max-w-4xl mx-auto pl-6 sm:pl-10 space-y-12">
+                    <!-- Unit 1 -->
+                    <div class="relative">
+                        <!-- Dot -->
+                        <div class="absolute -left-[45px] sm:-left-[53px] top-1.5 w-7 h-7 rounded-full bg-chef-dark border-4 border-chef-500 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-chef-500/50">1</div>
+                        <div>
+                            <span class="text-xs font-semibold text-chef-500 uppercase tracking-widest block mb-1">1교시 (45분)</span>
+                            <h4 class="text-xl font-bold text-white mb-2">오마카세 주문서 접수 및 실시간 진단</h4>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed mb-4">
+                                익명 오픈 단톡방이나 질문 보드를 활용해 오늘 수강생들이 겪는 진짜 페인포인트를 수집 및 그룹화합니다. 강사가 현장에서 문제를 빠르게 재정의하고 즉시 맛보기 라이브 해결 프로세스를 시연합니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">문제 재정의 실습</span>
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">페르소나 맵핑</span>
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">공통업무 원격 처방</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Unit 2 -->
+                    <div class="relative">
+                        <div class="absolute -left-[45px] sm:-left-[53px] top-1.5 w-7 h-7 rounded-full bg-chef-dark border-4 border-chef-500 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-chef-500/50">2</div>
+                        <div>
+                            <span class="text-xs font-semibold text-chef-500 uppercase tracking-widest block mb-1">2교시 (60분)</span>
+                            <h4 class="text-xl font-bold text-white mb-2">마케팅 자동화 & 콘텐츠 크리에이티브 Live 튜닝</h4>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed mb-4">
+                                소재 고갈, 카피 제작, 상세페이지 기획 등의 페인포인트를 해결합니다. 실제 수강생의 제품 특성 및 타겟 페르소나 정보를 받아 즉석에서 경쟁사 리뷰 정보를 가공하고 셀링 포인트를 발굴하는 가치 창출 과정을 목격하게 됩니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">리뷰 데이터 분석</span>
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">훅(Hooking) 카피 메이커</span>
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">와이어프레임 빌딩</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Unit 3 -->
+                    <div class="relative">
+                        <div class="absolute -left-[45px] sm:-left-[53px] top-1.5 w-7 h-7 rounded-full bg-chef-dark border-4 border-chef-500 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-chef-500/50">3</div>
+                        <div>
+                            <span class="text-xs font-semibold text-chef-500 uppercase tracking-widest block mb-1">3교시 (60분)</span>
+                            <h4 class="text-xl font-bold text-white mb-2">엑셀·문서 지옥 탈출 & 업무 효율화 Live 튜닝</h4>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed mb-4">
+                                망가진 엑셀 수식 바로잡기, PDF 장문 요약, 보고서 프레임워크 깎기, 지루하게 짜야 하는 보고 메일 템플릿의 자동화 등 사무직의 든든한 동반자가 되는 시간입니다. 가벼운 스크립트 작성이나 고도의 프롬프트 체이닝을 활용합니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">엑셀 매크로/VBA 실시간 제작</span>
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">장문 정부 보고서 요약</span>
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">출력 포맷 고도화</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Unit 4 -->
+                    <div class="relative">
+                        <div class="absolute -left-[45px] sm:-left-[53px] top-1.5 w-7 h-7 rounded-full bg-chef-dark border-4 border-chef-500 flex items-center justify-center text-white text-xs font-bold shadow-lg shadow-chef-500/50">4</div>
+                        <div>
+                            <span class="text-xs font-semibold text-chef-500 uppercase tracking-widest block mb-1">4교시 (35분)</span>
+                            <h4 class="text-xl font-bold text-white mb-2">나만의 'AI 진통제' 처방전 마무리 및 질의응답</h4>
+                            <p class="text-gray-400 text-sm sm:text-base leading-relaxed mb-4">
+                                현장에서 도출된 맞춤형 최적화 프롬프트를 깔끔하게 문서화(코드 스니펫 형태)하여 모든 수강생에게 아카이빙 파일로 즉석 배부합니다. 강의를 마무리하며 각 현업 부서별 사후 관리에 대한 정량적 조언을 제시합니다.
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">프롬프트 에셋 전달</span>
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">1:1 원포인트 AS</span>
+                                <span class="text-xs bg-gray-900 border border-gray-800 rounded px-2.5 py-1 text-gray-300">커스텀 GPT 구축 조언</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INTERACTIVE SECTION: ROI CALCULATOR -->
+    <section id="roi" class="py-24 bg-gradient-to-b from-chef-dark to-[#090C14] border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                <!-- Calc texts -->
+                <div class="lg:col-span-5 space-y-6">
+                    <span class="text-chef-500 font-bold text-sm tracking-wider uppercase">ROI Calculator</span>
+                    <h3 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+                        AI 오마카세를 도입하면<br>
+                        얼마나 절약될까요?
+                    </h3>
+                    <p class="text-gray-400 leading-relaxed">
+                        간단한 수치 입력을 통해 내 팀원이나 나의 일상적인 시간 낭비를 업무 고도화/프롬프트 튜닝으로 제거했을 때 얻어질 <strong>실질적인 연간 기회비용 및 절약 가치</strong>를 눈으로 직접 확인하세요.
+                    </p>
+                    <div class="p-4 rounded-xl bg-chef-card/50 border border-gray-800 flex items-center gap-3">
+                        <i class="fa-solid fa-calculator text-2xl text-chef-500"></i>
+                        <span class="text-xs text-gray-400">
+                            * 기업 교육 담당자님들을 위한 내부 보고용 정량 지표 근거로 유용하게 활용할 수 있습니다.
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Live Calculator Box -->
+                <div class="lg:col-span-7 bg-chef-card border border-gray-800 rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+                    <div class="absolute -top-10 -right-10 w-40 h-40 bg-indigo-500/10 rounded-full blur-3xl"></div>
+                    
+                    <h4 class="text-lg font-bold text-white mb-6 pb-2 border-b border-gray-800">📊 업무 비효율 진단기</h4>
+                    
+                    <div class="space-y-6">
+                        <!-- Slider 1 -->
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-2">
+                                <span class="text-gray-300">단순 반복/자료 조사를 지탱하는 하루 낭비 시간</span>
+                                <span class="text-chef-500 font-bold" id="val-time-label">2.5시간</span>
+                            </div>
+                            <input id="range-time" type="range" min="0.5" max="8" step="0.5" value="2.5" oninput="calculateROI()" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-chef-500">
+                            <div class="flex justify-between text-xs text-gray-600 mt-1">
+                                <span>30분</span>
+                                <span>4시간</span>
+                                <span>8시간</span>
+                            </div>
+                        </div>
+
+                        <!-- Slider 2 -->
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-2">
+                                <span class="text-gray-300">이를 겪고 있는 실무 담당자 인원수</span>
+                                <span class="text-chef-500 font-bold" id="val-members-label">5명</span>
+                            </div>
+                            <input id="range-members" type="range" min="1" max="50" step="1" value="5" oninput="calculateROI()" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-chef-500">
+                            <div class="flex justify-between text-xs text-gray-600 mt-1">
+                                <span>1명</span>
+                                <span>25명</span>
+                                <span>50명</span>
+                            </div>
+                        </div>
+
+                        <!-- Slider 3 -->
+                        <div>
+                            <div class="flex justify-between text-sm font-medium mb-2">
+                                <span class="text-gray-300">평균 시간당 인건비 수준 (원/시간)</span>
+                                <span class="text-chef-500 font-bold" id="val-cost-label">15,000원</span>
+                            </div>
+                            <input id="range-cost" type="range" min="10000" max="100000" step="5000" value="15000" oninput="calculateROI()" class="w-full h-2 bg-gray-800 rounded-lg appearance-none cursor-pointer accent-chef-500">
+                            <div class="flex justify-between text-xs text-gray-600 mt-1">
+                                <span>1만원</span>
+                                <span>5만원</span>
+                                <span>10만원</span>
+                            </div>
+                        </div>
+
+                        <!-- Calc Result View -->
+                        <div class="bg-chef-dark rounded-xl p-5 border border-gray-800 mt-8 grid grid-cols-2 gap-4 text-center">
+                            <div class="border-r border-gray-800">
+                                <span class="text-xs text-gray-500 block mb-1">월간 단축 효율 시간 (40% 단축 기준)</span>
+                                <span class="text-xl sm:text-2xl font-bold text-white" id="res-hours">100시간</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-chef-accent block mb-1">연간 기대 절약 예산</span>
+                                <span class="text-xl sm:text-2xl font-black text-chef-accent" id="res-money">₩ 18,000,000</span>
+                            </div>
+                        </div>
+
+                        <p class="text-xs text-gray-500 text-center mt-2">
+                            * 본 강의 수강 후 실무 자동화 효율을 최소 40% 이상으로 달성했을 때 보수적으로 계산된 결과입니다.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- REAL EXAMPLES TABBED PREVIEW -->
+    <section class="py-20 bg-chef-dark relative border-b border-gray-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-16">
+                <span class="text-chef-500 font-bold text-sm tracking-wider uppercase">Live Examples</span>
+                <h3 class="text-3xl font-extrabold text-white mt-2">
+                    실제 현장 '비포 & 애프터'
+                </h3>
+                <p class="text-gray-400 mt-2">
+                    단순한 명령어(Before)와 셰프가 튜닝을 거쳐 처방한 프롬프트(After)의 비교 결과를 미리 엿보세요.
+                </p>
+            </div>
+
+            <!-- Tab Buttons -->
+            <div class="flex justify-center space-x-2 md:space-x-4 mb-8 bg-gray-950/80 p-1.5 rounded-xl max-w-xl mx-auto border border-gray-900">
+                <button onclick="switchTab('tab-marketing')" id="btn-tab-marketing" class="tab-btn flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg transition-all text-white bg-chef-600">
+                    📢 마케팅 카피
+                </button>
+                <button onclick="switchTab('tab-excel')" id="btn-tab-excel" class="tab-btn flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg text-gray-400 hover:text-white transition-all">
+                    📊 엑셀 자동화
+                </button>
+                <button onclick="switchTab('tab-summarize')" id="btn-tab-summarize" class="tab-btn flex-1 py-2 text-xs sm:text-sm font-bold rounded-lg text-gray-400 hover:text-white transition-all">
+                    📄 정부보고서 요약
+                </button>
+            </div>
+
+            <!-- Tab Contents -->
+            <div id="tab-marketing" class="tab-content grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Before -->
+                <div class="bg-[#101625] border border-gray-800 rounded-2xl p-6">
+                    <span class="px-3 py-1 bg-red-900/20 text-red-400 border border-red-500/30 rounded text-xs font-bold uppercase mb-4 inline-block">Before (흔한 수강생의 프롬프트)</span>
+                    <p class="text-sm text-gray-300 italic mb-4">"새로 출시한 텀블러 마케팅 문구 좀 인스타그램용으로 멋지게 5개 써줘."</p>
+                    <div class="bg-gray-950 p-4 rounded-xl text-xs text-gray-500 font-mono space-y-2 border border-gray-900">
+                        <p class="text-gray-300 font-bold">🤖 AI의 일반적인 결과물:</p>
+                        <p>1. "내 손 안의 프리미엄, 가벼운 외출을 함께하는 멋진 동반자 텀블러!"</p>
+                        <p>2. "지구를 지키는 아름다운 습관, 우리 브랜드 텀블러와 함께하세요!"</p>
+                        <p class="text-red-400/80 mt-2">* 아쉬운 점: 경쟁사 누구나 쓸 수 있는 뻔한 소리, 타겟 무시, 지나치게 인위적인 수식어 투성이.</p>
+                    </div>
+                </div>
+                <!-- After -->
+                <div class="bg-[#101625] border border-chef-500/40 rounded-2xl p-6 glow-effect">
+                    <span class="px-3 py-1 bg-emerald-900/20 text-emerald-400 border border-emerald-500/30 rounded text-xs font-bold uppercase mb-4 inline-block">After (셰프의 오마카세 튜닝)</span>
+                    <p class="text-sm text-gray-300 font-semibold mb-4">"수강생의 구체적 타겟(20대 후반 직장인 여성, 미니멀리즘)과 디자인 아이덴티티를 즉석에서 주입하여 극적인 페르소나 매칭을 구현"</p>
+                    <div class="bg-gray-950 p-4 rounded-xl text-xs text-emerald-400 font-mono space-y-2 border border-gray-900">
+                        <p class="text-chef-accent font-bold">🔧 핵심 처방 포인트:</p>
+                        <p class="text-gray-300">1. 타겟 세그먼트의 라이프스타일 묘사 적용</p>
+                        <p class="text-gray-300">2. '~하는 습관' 식의 식상한 메타포 배제 요청</p>
+                        <p class="text-gray-300">3. 첫 문장 가독성을 위한 구조적 한계 부여 (10자 이내 훅)</p>
+                        <p class="text-emerald-400 font-bold mt-2">-> 결과물: "내 책상 위 시끄러운 원색 사이에서 오롯이 혼자 심플한 무채색 텀블러. 내 취향은 가방에서도 튀지 않으니까."</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-excel" class="tab-content hidden grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Before -->
+                <div class="bg-[#101625] border border-gray-800 rounded-2xl p-6">
+                    <span class="px-3 py-1 bg-red-900/20 text-red-400 border border-red-500/30 rounded text-xs font-bold uppercase mb-4 inline-block">Before (흔한 수강생의 프롬프트)</span>
+                    <p class="text-sm text-gray-300 italic mb-4">"A열이랑 B열 비교해서 없는 것만 골라내는 엑셀 매크로 하나 알려줘."</p>
+                    <div class="bg-gray-950 p-4 rounded-xl text-xs text-gray-500 font-mono space-y-2 border border-gray-900">
+                        <p class="text-gray-300 font-bold">🤖 AI의 일반적인 결과물:</p>
+                        <p>매우 길고 장황한 VBA 코드 덩어리와 "Alt + F11을 눌러 모듈을 추가하세요..." 로 시작하는 거대한 매뉴얼 나열.</p>
+                        <p class="text-red-400/80 mt-2">* 아쉬운 점: 엑셀 매크로 설정법을 모르는 입문자에겐 코드 자체가 장벽. 버그 발생 시 대응 불가능.</p>
+                    </div>
+                </div>
+                <!-- After -->
+                <div class="bg-[#101625] border border-chef-500/40 rounded-2xl p-6 glow-effect">
+                    <span class="px-3 py-1 bg-emerald-900/20 text-emerald-400 border border-emerald-500/30 rounded text-xs font-bold uppercase mb-4 inline-block">After (셰프의 오마카세 튜닝)</span>
+                    <p class="text-sm text-gray-300 font-semibold mb-4">"VBA 코딩 없이 단 3초 만에 검증 가능한 고강도 수식 및 실시간 크로스 분석 프롬프트 설계"</p>
+                    <div class="bg-gray-950 p-4 rounded-xl text-xs text-emerald-400 font-mono space-y-2 border border-gray-900">
+                        <p class="text-chef-accent font-bold">🔧 핵심 처방 포인트:</p>
+                        <p class="text-gray-300">1. `VLOOKUP` 대신 대용량에서도 깨지지 않는 최신 `XLOOKUP` 결합 수식 주입</p>
+                        <p class="text-gray-300">2. 수식의 인자 구조를 수강생이 가진 실제 헤더명(예: '사원번호', '구매코드')에 실시간 치환</p>
+                        <p class="text-gray-300">3. 에러 발생 시 자동 처리하는 IFERROR 구문 사전 삽입</p>
+                        <p class="text-emerald-400 font-bold mt-2">-> 결과물: 복잡한 매크로 버튼 누를 필요 없이 복사-붙여넣기 한 번으로 끝나는 에러프리 공식 제공.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-summarize" class="tab-content hidden grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Before -->
+                <div class="bg-[#101625] border border-gray-800 rounded-2xl p-6">
+                    <span class="px-3 py-1 bg-red-900/20 text-red-400 border border-red-500/30 rounded text-xs font-bold uppercase mb-4 inline-block">Before (흔한 수강생의 프롬프트)</span>
+                    <p class="text-sm text-gray-300 italic mb-4">"이 정부 공고문 요약해서 보고해 줘. (PDF 첨부)"</p>
+                    <div class="bg-gray-950 p-4 rounded-xl text-xs text-gray-500 font-mono space-y-2 border border-gray-900">
+                        <p class="text-gray-300 font-bold">🤖 AI의 일반적인 결과물:</p>
+                        <p>"본 공고문은 중소기업의 디지털 전환 촉진을 목표로..." 처럼 단순 목차 수준의 나열형 요약.</p>
+                        <p class="text-red-400/80 mt-2">* 아쉬운 점: 보고 받는 실무 팀장/대표가 알고 싶어 하는 '핵심 액션', '소요 예산', '지원 대상 조건' 등이 흐릿함.</p>
+                    </div>
+                </div>
+                <!-- After -->
+                <div class="bg-[#101625] border border-chef-500/40 rounded-2xl p-6 glow-effect">
+                    <span class="px-3 py-1 bg-emerald-900/20 text-emerald-400 border border-emerald-500/30 rounded text-xs font-bold uppercase mb-4 inline-block">After (셰프의 오마카세 튜닝)</span>
+                    <p class="text-sm text-gray-300 font-semibold mb-4">"기획재정부 보고 프레임워크(MECE 원칙)를 프롬프트에 실시간 주입하여 의사결정용 최적 표 구조 추출"</p>
+                    <div class="bg-gray-950 p-4 rounded-xl text-xs text-emerald-400 font-mono space-y-2 border border-gray-900">
+                        <p class="text-chef-accent font-bold">🔧 핵심 처방 포인트:</p>
+                        <p class="text-gray-300">1. 보고용 가이드라인 구조(기대 성과, 필수 액션, 리스크 관리) 명세 요청</p>
+                        <p class="text-gray-300">2. 수치 데이터만 마크다운 표로 따로 발라내서 비교 대조하도록 제약조건 부여</p>
+                        <p class="text-gray-300">3. 탈락 예외 기준에 대한 원포인트 발췌 설계</p>
+                        <p class="text-emerald-400 font-bold mt-2">-> 결과물: 부서장에게 바로 전달 가능한 격식 있고 완결된 성격의 보고서 요약본 완성.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MENTOR SECTION -->
+    <section class="py-24 bg-[#090C14] relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-chef-500 font-bold text-sm tracking-wider uppercase font-mono">Expert Profile</span>
+                <h3 class="text-3xl font-extrabold text-white mt-2">
+                    오마카세 셰프 소개
+                </h3>
+                <p class="text-gray-400 mt-2">
+                    수백 개 기업 임직원의 실무 애로사항을 즉석에서 해결해 온 최고의 생산성 파트너입니다.
+                </p>
+            </div>
+
+            <div class="max-w-3xl mx-auto bg-chef-card border border-gray-800 rounded-3xl p-8 md:p-12 relative overflow-hidden flex flex-col md:flex-row gap-8 items-center shadow-xl">
+                <div class="absolute top-0 right-0 w-32 h-32 bg-chef-600/10 rounded-full blur-3xl"></div>
+                <!-- Chef Icon Avatar -->
+                <div class="w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-tr from-chef-600 to-indigo-600 flex items-center justify-center text-white text-5xl flex-shrink-0 shadow-lg border-4 border-gray-800">
+                    <i class="fa-solid fa-user-ninja"></i>
+                </div>
+                <!-- Bio info -->
+                <div class="text-center md:text-left space-y-4">
+                    <div>
+                        <span class="text-xs font-bold text-chef-500 uppercase tracking-wider block mb-1">AI Productivity Consultant</span>
+                        <h4 class="text-2xl font-black text-white">이지훈 셰프 (Jihoon Lee)</h4>
+                        <p class="text-gray-400 text-sm mt-1">현장 밀착형 실무 자동화 / 프롬프트 엔지니어링 마스터</p>
+                    </div>
+                    <p class="text-gray-300 text-sm leading-relaxed">
+                        "정형화된 강의로는 당장 내일 해야 할 실무자들의 고민을 풀어줄 수 없습니다. 현업에 있는 실무자들은 기능 공부가 아니라 <strong>당일 즉각 적용할 수 있는 처방약</strong>이 필요합니다. AI 오마카세는 수강생이 가져오시는 날것의 데이터와 요구사항을 그 자리에서 즉시 해소해 드립니다."
+                    </p>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-2.5">
+                        <span class="text-xs bg-chef-dark px-3 py-1.5 rounded-lg border border-gray-800 text-gray-300">대기업 출강 100회+</span>
+                        <span class="text-xs bg-chef-dark px-3 py-1.5 rounded-lg border border-gray-800 text-gray-300">누적 수강생 5,000명+</span>
+                        <span class="text-xs bg-chef-dark px-3 py-1.5 rounded-lg border border-gray-800 text-gray-300">프롬프트 튜닝 컨설팅 다수</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section id="faq" class="py-24 bg-chef-dark relative border-t border-gray-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-chef-500 font-bold text-sm tracking-wider uppercase font-mono">FAQ</span>
+                <h3 class="text-3xl font-extrabold text-white mt-2">
+                    자주 묻는 질문 (FAQ)
+                </h3>
+                <p class="text-gray-400 mt-2">
+                    교육에 대해 가장 많이 들어오는 질문들을 모았습니다.
+                </p>
+            </div>
+
+            <!-- FAQ Accordions -->
+            <div class="space-y-4">
+                <!-- FAQ 1 -->
+                <div class="bg-chef-card border border-gray-800 rounded-2xl overflow-hidden transition-all">
+                    <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="font-bold text-white text-base sm:text-lg">💻 강의 참가 시 필요한 준비물이 있나요?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content max-h-0 overflow-hidden bg-chef-dark/50 border-t border-gray-900">
+                        <div class="p-6 text-gray-300 text-sm sm:text-base leading-relaxed">
+                            노트북과 <strong>평소 해결하고 싶었던 실제 업무 파일(포맷팅 오류가 난 엑셀 시트, 카피를 짜야 하는 기획서, 보고 요약이 필요한 문서 등)</strong>만 챙겨오시면 됩니다. 현장에서 직접 수강생분들의 데이터로 실습이 이뤄집니다.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 2 -->
+                <div class="bg-chef-card border border-gray-800 rounded-2xl overflow-hidden transition-all">
+                    <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="font-bold text-white text-base sm:text-lg">👶 ChatGPT 등 AI를 다뤄보지 않은 초보자도 가능한가요?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content max-h-0 overflow-hidden bg-chef-dark/50 border-t border-gray-900">
+                        <div class="p-6 text-gray-300 text-sm sm:text-base leading-relaxed">
+                            네, 물론입니다. 이 강의는 코딩이나 개발 수업이 아닙니다. 일상에서 쓰는 쉬운 한국어(자연어)로 AI를 똑똑하게 가르치고 통제하는 **'프롬프트 조율법'**을 배우기 때문에, 메신저를 쓸 줄 아는 사람이라면 누구나 30분 만에 원리를 깨우칠 수 있습니다.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ 3 -->
+                <div class="bg-chef-card border border-gray-800 rounded-2xl overflow-hidden transition-all">
+                    <button class="w-full text-left p-6 flex justify-between items-center focus:outline-none" onclick="toggleFaq(this)">
+                        <span class="font-bold text-white text-base sm:text-lg">🏢 사내 출강 시 부서별 도메인 맞춤 설계가 가능한가요?</span>
+                        <i class="fa-solid fa-chevron-down text-gray-400 transition-transform"></i>
+                    </button>
+                    <div class="accordion-content max-h-0 overflow-hidden bg-chef-dark/50 border-t border-gray-900">
+                        <div class="p-6 text-gray-300 text-sm sm:text-base leading-relaxed">
+                            네. 사내 단체 교육의 경우 사전에 각 실무팀의 직무 성격(예: HR, 마케팅, 재무, 구매, 고객지원 등)과 주로 하시는 반복 업무 정보를 취합합니다. 이후 교육 당일에는 **각 팀 전용 맞춤형 레시피로 로드맵을 구성**해 실시간 라이브 튜닝을 진행합니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT SECTION (Apply) -->
+    <section id="apply" class="py-24 bg-gradient-to-t from-chef-dark via-[#0d1222] to-chef-dark border-t border-gray-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <span class="text-chef-500 font-bold text-sm tracking-wider uppercase font-mono">Book Mentoring</span>
+                <h3 class="text-3xl sm:text-4xl font-extrabold text-white mt-2 mb-4">
+                    🏢 기업 단체 출강 & 멘토링 문의
+                </h3>
+                <p class="text-gray-400">
+                    원하는 도메인 맞춤 오마카세 멘토링 일정을 조율해 보세요. 출강 인원, 해결하고자 하는 타겟 비즈니스 성향에 맞춰 즉각 제안서를 보내드립니다.
+                </p>
+            </div>
+
+            <!-- Form -->
+            <div class="bg-chef-card border border-gray-800 rounded-3xl p-8 shadow-2xl relative">
+                <!-- Status Banner for Success -->
+                <div id="submit-success-banner" class="hidden mb-6 p-4 bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-sm rounded-xl flex items-center gap-3">
+                    <i class="fa-solid fa-circle-check text-xl"></i>
+                    <div>
+                        <strong class="font-bold">신청이 정상 접수되었습니다!</strong>
+                        <p class="text-xs text-emerald-400/80 mt-0.5">남겨주신 번호/이메일로 24시간 이내에 전용 상세 커리큘럼 및 견적 제안서를 송부해 드리겠습니다.</p>
+                    </div>
+                </div>
+
+                <form id="apply-form" onsubmit="submitForm(event)" class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">담당자 이름 / 신청인 <span class="text-red-500">*</span></label>
+                            <input type="text" id="apply-name" required class="w-full bg-chef-dark border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-chef-500 transition-all" placeholder="홍길동">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">회사명 / 소속 기관 <span class="text-red-500">*</span></label>
+                            <input type="text" id="apply-company" required class="w-full bg-chef-dark border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-chef-500 transition-all" placeholder="OO주식회사">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">연락처 <span class="text-red-500">*</span></label>
+                            <input type="tel" id="apply-phone" required class="w-full bg-chef-dark border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-chef-500 transition-all" placeholder="010-0000-0000">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">이메일 주소 <span class="text-red-500">*</span></label>
+                            <input type="email" id="apply-email" required class="w-full bg-chef-dark border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-chef-500 transition-all" placeholder="name@company.com">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">예상 참여 인원</label>
+                            <select id="apply-headcount" class="w-full bg-chef-dark border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-chef-500 transition-all">
+                                <option value="1">1명 (개인 맞춤 멘토링)</option>
+                                <option value="2-5">2명 ~ 5명 (소그룹 워크숍)</option>
+                                <option value="6-15" selected>6명 ~ 15명 (부서 단위 출강)</option>
+                                <option value="16-30">16명 ~ 30명 (실무자 단체 특강)</option>
+                                <option value="31+">30명 이상 (대규모 기업 교육)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-400 mb-2">관심 부서/도메인</label>
+                            <select id="apply-domain" class="w-full bg-chef-dark border border-gray-800 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-chef-500 transition-all">
+                                <option value="marketing">마케팅 / 홍보 콘텐츠 제작</option>
+                                <option value="office">일반 사무 / 기획 / 데이터 분석</option>
+                                <option value="sales">영업 / 고객 서비스 (CS) 자동화</option>
+                                <option value="management">인사 / 경영지원 / 업무 효율화</option>
+                                <option value="custom">종합 맞춤형 코스</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-400 mb-2">해결을 원하는 업무 페인포인트 및 상세 요청사항 <span class="text-red-500">*</span></label>
+                        <textarea id="apply-message" required rows="4" class="w-full bg-chef-dark border border-gray-800 rounded-xl px-4 py-3 text-white placeholder-gray-600 focus:outline-none focus:border-chef-500 transition-all" placeholder="예: 저희 팀원들이 매주 보고용 원천 데이터를 가공하는 데 3시간 이상 소비하고 있습니다. 이 과정을 AI 프롬프트와 가벼운 자동화 툴로 대체하는 교육을 원합니다. 희망일정은 9월 중순입니다."></textarea>
+                    </div>
+                    <div class="flex items-start">
+                        <div class="flex items-center h-5">
+                            <input id="apply-agreement" type="checkbox" required class="w-4 h-4 text-chef-500 border-gray-800 rounded bg-chef-dark focus:ring-chef-500 focus:ring-2 focus:ring-offset-chef-dark">
+                        </div>
+                        <div class="ml-3 text-sm">
+                            <label for="apply-agreement" class="font-medium text-gray-400">개인정보 수집 및 이용에 동의합니다. (필수)</label>
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full py-4 bg-gradient-to-r from-chef-600 to-indigo-600 hover:from-chef-500 hover:to-indigo-500 rounded-xl text-white font-bold shadow-lg shadow-chef-600/30 transition-all duration-300 transform hover:-translate-y-0.5">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> 맞춤 제안서 및 견적 요청하기
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-950 border-t border-gray-900 py-12 text-gray-500 text-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center space-y-4">
+            <div class="flex items-center justify-center gap-2 text-white font-black text-lg">
+                <i class="fa-solid fa-wand-magic-sparkles text-chef-500"></i>
+                <span>AI <span class="text-chef-500">오마카세</span></span>
+            </div>
+            <p>본 강의는 실시간 현업 밀착형 프롬프트 엔지니어링 진단 및 해결 중심 특강입니다.</p>
+            <p>© 2026 AI Omakase. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- INTERACTIVE LOGIC -->
+    <script>
+        // --- MOBILE NAV MENU ---
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+        
+        function toggleMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        // --- SIMULATION DATA & ACTIONS ---
+        const painPoints = {
+            marketer: [
+                { value: 'insta-copy', text: '📢 인스타 피드 광고 카피 소재 고갈' },
+                { value: 'blog-post', text: '✍️ 블로그 상위 노출용 정보성 글 초안 생성' },
+                { value: 'det-page', text: '🛍️ 제품 상세페이지 후킹 카피 및 기획' }
+            ],
+            office: [
+                { value: 'excel-formula', text: '📊 망가진 엑셀 수식 및 다중 VLOOKUP 해결' },
+                { value: 'report-summary', text: '📄 장문 PDF 보고서의 1페이지 요약표 변환' },
+                { value: 'email-temp', text: '✉️ 거래처용 격식 있는 공문 및 거절 메일 작성' }
+            ],
+            self: [
+                { value: 'naver-place', text: '💬 네이버 플레이스 사장님 답글 자동화' },
+                { value: 'flyer-copy', text: '🏷️ 동네 전단지/배너 광고용 후킹 코멘트' },
+                { value: 'sms-promo', text: '📱 고객 재방문 유도 할인 이벤트 문자' }
+            ]
+        };
+
+        const prescriptions = {
+            'insta-copy': {
+                pain: '마케팅 카피 라이팅 - SNS 광고 소재 고갈 및 뻔한 문구 극복',
+                prompt: `[역할] 5년차 브랜드 마케터 & 카피라이터\n[목표] 20대 타겟의 감성을 자극하고 즉각적인 스크롤 스톱(Scroll-stop)을 일으키는 인스타그램 광고 카피 작성\n[제품 정보] 친환경 미니멀리즘 텀블러 (색상: 무채색 매트 실버, 용량: 500ml)\n[핵심 타겟] 미니멀한 라이프스타일을 추구하는 2030 직장인 여성\n[제약 사항]\n1. '친환경', '프리미엄', '혁신' 등 추상적이고 식상한 단어 절대 금지\n2. 첫 줄은 12자 이내로, 타겟이 일상에서 느끼는 불편함(예: 가방 속 물 셈, 무거운 무게)을 시각적으로 묘사할 것\n3. 본문은 2문장 이내로, 혜택 위주 서술 후 프로필 링크 클릭 유도\n4. 어조: 담백하고 감성적이며 과장 없는 톤앤매너\n[출력 형식]\n- 1줄 훅 (Hook)\n- 2줄 스토리/혜택\n- Call to Action`,
+                key: 'SNS 피드 카피는 첫 3초 안에 스크롤을 멈춰야 합니다. 식상한 미사여구를 제거하고, 가방 속 텀블러 누수와 같은 구체적 페인포인트를 시각적인 감각으로 묘사하여 타겟의 몰입감을 극대화했습니다.'
+            },
+            'blog-post': {
+                pain: '콘텐츠 마케팅 - 블로그 노출용 고품질 정보성 줄글 초안 자동 작성',
+                prompt: `[역할] 검색엔진 최적화(SEO) 전문 테크니컬 에디터\n[목표] 정보 제공성과 신뢰성을 고루 갖추어 네이버/구글 검색 상위에 노출될 수 있는 블로그 포스팅 초안 작성\n[주제] 직장인을 위한 만성 피로 회복 영양제 고르는 방법 (비타민B, 밀크씨슬 중심)\n[글 구성 방식]\n1. 서론: 피로의 사회적 공감대 형성 및 영양제 선택의 어려움 토로 (300자)\n2. 본론 1: 성분 함량 표기를 반드시 확인해야 하는 이유\n3. 본론 2: 비타민B군 및 활성형 비타민의 차이점 (표 형식 정리)\n4. 본론 3: 밀크씨슬 복용 시 간 손상 주의사항 및 복용 시간대\n5. 결론: 똑똑한 소비자를 위한 한 줄 요약 및 주의 당부\n[스타일 지침]\n- 전문용어는 괄호를 열고 쉬운 단어로 풀어 설명할 것\n- '~입니다', '~합니다' 경어체 사용\n- 문단 중간중간 소제목을 명확히 구분하여 배치할 것 (Markdown H3 적용)`,
+                key: '블로그 글은 알고리즘 노출뿐만 아니라 실독자의 체류 시간이 중요합니다. 전문성과 가독성을 모두 확보하기 위해 표(Table) 형식의 배치와 친숙한 용어 해설 가이드를 명시하여 체류 시간을 극대화합니다.'
+            },
+            'det-page': {
+                pain: '상세페이지 기획 - 구매 전환율을 높이는 AIDA 기반 와이어프레임 기획',
+                prompt: `[역할] 전환율 극대화 전문 랜딩페이지 UX 기획자\n[목표] 신규 론칭하는 무선 목안마기의 와이어프레임 및 핵심 후킹 카피 구성 (AIDA 모델 적용)\n[제품 셀링포인트] \n- 손가락으로 직접 누르는 듯한 4D 마사지 휠\n- 42도 온열 기능\n- C타입 충전 및 무선 500g 초경량\n[AIDA 단계별 필수 구성 요소]\n1. Attention (주의): 기존 목안마기 구매 후 장롱에 넣어둔 사람들의 뒤통수를 치는 강력한 후크 질문 2가지\n2. Interest (흥미): 일반 모터 진동과 4D 손지압 휠의 입체적 자극 비교 (대조군 제시)\n3. Desire (욕구): 온열 기능과 경량성이 주는 편안함을 일상 속 상황(재택근무 중, 운전 중)으로 연출\n4. Action (행동): 한정 수량 할인 혜택 강조 및 구매처 안내\n[출력 요구사항] 각 단계별로 들어가야 할 비주얼 연출 아이디어(기획자 코멘트)와 카피 텍스트를 구분하여 작성할 것.`,
+                key: '상세페이지는 흐름(Flow)이 곧 매출입니다. AIDA(Attention-Interest-Desire-Action) 프레임워크를 기반으로 텍스트 카피뿐만 아니라 개발자/디자이너와 소통하기 위한 비주얼 연출 아이디어까지 한 번에 정의하는 것이 핵심 튜닝 기법입니다.'
+            },
+            'excel-formula': {
+                pain: '사무 생산성 - 데이터 매칭용 다중 조건 수식 및 에러 프리 엑셀 튜닝',
+                prompt: `[역할] 엑셀 스프레드시트 수석 데이터 분석가\n[목표] 서로 다른 시트에 나열된 회원 데이터를 특정 키값 기준으로 매칭하는 완벽한 수식 설계\n[데이터 구조]\n- 메인 시트: A열(이메일), B열(구매여부) -> 비어있음\n- 대조 시트: A열(아이디), B열(이메일), C열(최종 결제 완료액)\n[요청 사항] \n메인 시트의 이메일 값을 대조 시트와 비교하여, 일치하는 이메일이 있을 경우 대조 시트 C열의 '최종 결제 완료액'을 메인 시트 B열에 출력하는 수식 작성.\n[제약 조건]\n1. 최신 XLOOKUP 함수를 기본으로 사용하고, 구버전 엑셀 사용자를 위한 INDEX/MATCH 대체 수식도 함께 제공할 것.\n2. 매칭되는 이메일이 없는 경우, 에러 코드(#N/A, #VALUE!) 대신 빈칸("") 또는 "미구매"로 안전하게 출력하도록 IFERROR 함수를 중첩할 것.\n3. 수식의 각 인수(Argument)에 대해 초보자도 바로 교체해 쓸 수 있도록 친절한 설명 주석 첨부.`,
+                key: '수많은 데이터 누수와 에러의 주범은 잘못 설계된 수식입니다. 매칭 실패 시 예외 상황을 컨트롤하는 `IFERROR` 처리를 수식 안에 단단히 묶어두고, 구버전 호환용 템플릿을 함께 확보하는 것이 업무 연속성의 핵심 노하우입니다.'
+            },
+            'report-summary': {
+                pain: '문서 작성 - 방대한 분량의 보고서를 1페이지 의사결정 요약본으로 축소',
+                prompt: `[역할] 정부 기관 및 대기업 대상 전문 기획 실무관\n[목표] 제공되는 5,000자 분량의 '디지털 전환 지원 사업 추진 현황' 자료를 임원 보고용 1페이지(A4) 한눈에 들어오는 요약서로 가공\n[보고서 뼈대 구조]\n1. 추진 배경 및 필요성 (두괄식 2문장)\n2. 주요 성과 (수치 데이터 위주로 작성하되, 전년 대비 증감율을 %로 확실히 표현할 것)\n3. 당면 과제 및 현안 이슈 (MECE 분석 기법에 기반해 중복 없이 3가지 도출)\n4. 향후 조치 계획 (일정, 담당 부서 명세)\n[작성 원칙]\n- 모든 문장은 개조식(-, *, ㆍ)으로 작성할 것\n- 명사형 종결 어미 사용 (~함, ~임, ~구축 완료)\n- 애매한 수식어(상당한 발전, 큰 효과 등)는 모두 제거하고 정확한 정량적 수치로 대체할 것.`,
+                key: '보고받는 자는 글을 읽지 않고 구조를 봅니다. 장황한 서술어를 모두 쳐내는 개조식 문체 제약과 명사형 종결 지시를 명확히 선언하고, 수치 데이터의 전년 대비 증감을 %로 강제 추출하게 설계하는 튜닝 방식입니다.'
+            },
+            'email-temp': {
+                pain: '비즈니스 커뮤니케이션 - 완곡하지만 단호한 거절 및 제안서 메일 템플릿 작성',
+                prompt: `[역할] 10년차 대기업 커뮤니케이션실 파트장\n[목표] 당사 플랫폼 입점 제안을 정중히 거절하되, 향후 우호적인 파트너십 가능성을 남겨두는 고품격 비즈니스 거절 이메일 작성\n[상황 설명] 제안사(A사)의 단가가 당사 기준보다 너무 높고 타겟 유저층이 일치하지 않아 이번 분기에는 협업이 불가능한 상황\n[필수 구성 단계]\n1. 제목: 가독성이 높고 예의를 갖춘 이메일 제목 (회사명 명시)\n2. 도입부: 제안에 대한 진심 어린 감사 표현 및 당사 검토 부서 피드백 언급\n3. 거절 본론: 거절 이유를 완곡히 표현 (예: 내부 리소스 제한, 분기별 우선순위 조정 등)\n4. 마무리: 제안사 제품의 가치에 대한 존중 및 차후 기회 기약\n[제약 조건]\n- 지나치게 차갑거나 기계적인 템플릿 느낌을 완전히 배제하고 따뜻하면서도 프로페셔널한 어조 유지\n- 수신인이 상처받지 않도록 배려하는 완곡한 표현법 사용`,
+                key: '비즈니스 메일은 회사 간의 첫인상과 평판을 결정합니다. 민감한 거절 사유를 완곡하게 포장하는 대안 단어셋(예: "협업 곤란" -> "우선순위 조정으로 인한 보류")을 미리 주입하여 격조 있는 거절을 가능하게 만듭니다.'
+            },
+            'naver-place': {
+                pain: '고객 관리 - 네이버 플레이스/배달앱 악플 및 호평 리뷰 대응 답글 자동화',
+                prompt: `[역할] 평점 5.0 골목식당을 운영하는 고객 소통 마스터 사장님\n[목표] 네이버 플레이스에 등록된 다양한 고객 리뷰(호평 및 불만 리뷰)에 대해 진정성 있고 친절한 사장님 답글 초안 작성\n[고객 리뷰 내용] "음식은 진짜 맛있는데 주말이라 그런지 대기 시간이 너무 길고 직원분들이 바빠서 물을 달라고 세 번 말해야 겨우 주셨어요. 조금 아쉽네요."\n[답글 필수 구성 요소]\n1. 방문에 대한 감사 인사\n2. 맛에 대한 칭찬 감사 언급\n3. 물 서비스 지연 및 대기 시간 발생에 대한 변명 없는 솔직한 사과\n4. 개선 방안 약속 (대기 시스템 도입 검토, 직원 서비스 재교육 등)\n5. 재방문 시 최고의 만족을 주겠다는 다짐과 기분 좋은 마무리\n[어조 및 말투]\n- 이웃 주민에게 이야기하듯 친밀하면서도 예의 바른 다정한 말투\n- 기계적인 매크로 답변 느낌을 완전히 제거할 것`,
+                key: '고객 대응 답글은 리뷰 작성자뿐 아니라 이를 지켜보는 예비 고객 수천 명이 읽습니다. 불만족 사항에 대한 변명(Excuse)을 차단하고, 구체적인 개선 조치(Action Plan)를 명시함으로써 오히려 위기를 기회로 바꾸는 답글을 만듭니다.'
+            },
+            'flyer-copy': {
+                pain: '오프라인 마케팅 - 전단지 및 현수막 광고용 원포인트 타이틀 훅 제작',
+                prompt: `[역할] 직관적인 메시지로 매출을 끄는 로컬 마케팅 전문가\n[목표] 골목에 오픈한 헬스장(피트니스 센터)의 전단지 및 외부 배너용 강력한 타이틀 카피 5가지 작성\n[헬스장 셀링포인트]\n- 24시간 연중무휴 운영\n- 월 3만 원의 합리적인 가격\n- 국가대표 출신 트레이너 항시 상주\n- 샤워실 개인 부스 완비\n[카피 지향점]\n1. "쾌적한 시설, 24시간 연중무휴" 같은 너무 흔하고 지루한 문장 배제\n2. 타겟(동네 주민, 특히 퇴근 후 운동하려는 직장인 및 다이어터)의 뜨끔한 양심을 찌르는 유머나 직관적 이득 강조\n3. 가독성을 고려하여 한눈에 꽂히는 15자 이내의 짧은 텍스트 중심`,
+                key: '오프라인 광고는 1초 안에 시선을 붙잡아야 합니다. 기능 나열형 문구(24시 운영 등) 대신 주민들의 행동 습관("오늘도 야근 핑계 대고 지나치시나요?")이나 직관적 숫자 혜택을 융합하는 튜닝 방식입니다.'
+            },
+            'sms-promo': {
+                pain: '고객 유치 - 단골 고객용 재방문 유도 할인 및 혜택 발송 문자 작성',
+                prompt: `[역할] 세심한 케어로 유명한 뷰티숍(헤어살롱) 원장님\n[목표] 최근 3개월간 방문이 뜸한 기존 단골 고객들의 재방문을 촉진하기 위한 모바일 할인 쿠폰 발송 메시지 작성\n[이벤트 혜택] \n- 재방문 시 시술 20% 특별 할인 (클리닉 서비스 무료 추가)\n- 기간 제한: 이번 달 말일까지 예약 시 적용 가능\n[메시지 조건]\n1. 스팸 문자처럼 보여 즉시 삭제되는 것을 방지하기 위해 첫 줄에 [광고] 표기 이후 고객 이름(치환자 {고객명} 사용)과 다정하게 안부를 묻는 멘트로 시작할 것.\n2. 오랜만에 연락하는 어색함을 덜기 위해 단골 고객 전용 프라이빗 혜택임을 은근히 강조할 것.\n3. 텍스트 바디는 가독성 높은 레이아웃(줄바꿈 적극 활용)으로 구성하고 예약 문의 링크({예약링크})를 포함할 것.`,
+                key: '스팸 차단을 피하고 오픈율을 올리려면 개인화({고객명})와 안부 확인이 필수적입니다. 프라이빗 VIP 혜택이라는 심리적 트리거를 제공하고 예약으로 향하는 심리적 허들을 낮추는 유도 공식입니다.'
+            }
+        };
+
+        let currentRole = 'marketer';
+
+        function selectRole(role) {
+            currentRole = role;
+            
+            // Toggle active classes on buttons
+            document.querySelectorAll('.role-btn').forEach(btn => {
+                btn.classList.remove('active-role');
+                // Reset internal icon colors
+                const icon = btn.querySelector('i');
+                if (icon) {
+                    icon.className = icon.className.replace('text-chef-500', 'text-gray-400');
+                }
+            });
+
+            const activeBtn = document.getElementById(`btn-role-${role}`);
+            activeBtn.classList.add('active-role');
+            const activeIcon = activeBtn.querySelector('i');
+            if (activeIcon) {
+                activeIcon.className = activeIcon.className.replace('text-gray-400', 'text-chef-500');
+            }
+
+            // Load options
+            loadPainPoints(role);
+        }
+
+        function loadPainPoints(role) {
+            const select = document.getElementById('painpoint-select');
+            select.innerHTML = '';
+            
+            painPoints[role].forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.value;
+                opt.textContent = item.text;
+                select.appendChild(opt);
+            });
+        }
+
+        // Initialize defaults
+        loadPainPoints('marketer');
+
+        function generatePrescription() {
+            const select = document.getElementById('painpoint-select');
+            const customInput = document.getElementById('custom-painpoint').value.trim();
+            
+            const pPain = document.getElementById('presc-pain');
+            const pPrompt = document.getElementById('presc-prompt');
+            const pKey = document.getElementById('presc-key');
+
+            // If custom text exists, generate a customized simulation
+            if (customInput) {
+                pPain.textContent = `실시간 맞춤 처방: "${customInput}"`;
+                pPrompt.textContent = `[역할] 생산성 10배 마스터 멘토\n[상황] 수강생이 현장에서 직접 입력한 맞춤 고민 해결\n[고민 내용] ${customInput}\n[최적화 프롬프트 구조]\n1. Context: 상황 정의 및 대상 분석\n2. Constraints: 불필요한 단어나 서술 방식의 금지 사항 명시\n3. Structure: 산출물의 구조(도입부, 핵심 요약, 상세 설명) 명시\n[제약 조건]\n- 초안 작성 시 '~에 대해 안내해 드립니다'와 같이 상투적이고 수동적인 서술어 배제할 것\n- 가독성을 위해 개조식 마크다운 형식으로 출력할 것.`;
+                pKey.textContent = '수강생분이 개별 입력하신 실무 문제를 위한 맞춤 설계입니다. 현장 튜닝에서는 불필요한 글의 군더더기를 없애기 위해 "수동형 표현 금지" 및 "구조 고정화" 제약을 최우선으로 적용해 처방해 드립니다.';
+            } else {
+                // Preset lookup
+                const selectedVal = select.value;
+                const data = prescriptions[selectedVal];
+                if (data) {
+                    pPain.textContent = data.pain;
+                    pPrompt.textContent = data.prompt;
+                    pKey.textContent = data.key;
+                }
+            }
+
+            // Animate layout shift slightly for feedback
+            const container = pPain.closest('.bg-[#101625]');
+            container.classList.add('scale-[0.98]');
+            setTimeout(() => {
+                container.classList.remove('scale-[0.98]');
+            }, 150);
+        }
+
+        function copyPrompt() {
+            const promptText = document.getElementById('presc-prompt').textContent;
+            navigator.clipboard.writeText(promptText).then(() => {
+                const copyBtn = document.getElementById('copy-btn');
+                const btnText = copyBtn.querySelector('span');
+                const originalText = btnText.textContent;
+                
+                btnText.textContent = '복사 완료!';
+                copyBtn.classList.remove('bg-gray-800');
+                copyBtn.classList.add('bg-green-600', 'text-white');
+
+                setTimeout(() => {
+                    btnText.textContent = originalText;
+                    copyBtn.classList.remove('bg-green-600', 'text-white');
+                    copyBtn.classList.add('bg-gray-800');
+                }, 2000);
+            }).catch(err => {
+                alert('복사하지 못했습니다. 수동으로 복사해 주세요.');
+            });
+        }
+
+        // --- ROI CALCULATOR LOGIC ---
+        function calculateROI() {
+            const h = parseFloat(document.getElementById('range-time').value);
+            const m = parseInt(document.getElementById('range-members').value);
+            const c = parseInt(document.getElementById('range-cost').value);
+
+            // Update Labels
+            document.getElementById('val-time-label').textContent = `${h}시간`;
+            document.getElementById('val-members-label').textContent = `${m}명`;
+            document.getElementById('val-cost-label').textContent = `${c.toLocaleString()}원`;
+
+            // Calculate values
+            // Assume 40% efficiency saved
+            const monthlyHoursSaved = Math.round(h * 0.4 * m * 20); // 20 working days/month
+            const annualSavings = monthlyHoursSaved * c * 12;
+
+            // Render output
+            document.getElementById('res-hours').textContent = `${monthlyHoursSaved}시간`;
+            document.getElementById('res-money').textContent = `₩ ${annualSavings.toLocaleString()}`;
+        }
+
+        // Trigger initial calculation
+        calculateROI();
+
+        // --- TABS SWITCHER ---
+        function switchTab(tabId) {
+            // Hide all contents
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+            });
+            // Show target content
+            document.getElementById(tabId).classList.remove('hidden');
+
+            // Deactivate all tab buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-chef-600', 'text-white');
+                btn.classList.add('text-gray-400', 'hover:text-white');
+            });
+
+            // Activate target button
+            let btnId = '';
+            if (tabId === 'tab-marketing') btnId = 'btn-tab-marketing';
+            else if (tabId === 'tab-excel') btnId = 'btn-tab-excel';
+            else if (tabId === 'tab-summarize') btnId = 'btn-tab-summarize';
+
+            const activeBtn = document.getElementById(btnId);
+            activeBtn.classList.remove('text-gray-400', 'hover:text-white');
+            activeBtn.classList.add('bg-chef-600', 'text-white');
+        }
+
+        // --- FAQ ACCORDION ---
+        function toggleFaq(btn) {
+            const accordionContent = btn.nextElementSibling;
+            const icon = btn.querySelector('i');
+
+            // Close other items
+            document.querySelectorAll('.accordion-content').forEach(content => {
+                if (content !== accordionContent) {
+                    content.style.maxHeight = '0';
+                    content.previousElementSibling.querySelector('i').classList.remove('rotate-180');
+                }
+            });
+
+            // Toggle active item
+            if (accordionContent.style.maxHeight && accordionContent.style.maxHeight !== '0px') {
+                accordionContent.style.maxHeight = '0';
+                icon.classList.remove('rotate-180');
+            } else {
+                accordionContent.style.maxHeight = accordionContent.scrollHeight + 'px';
+                icon.classList.add('rotate-180');
+            }
+        }
+
+        // --- CONTACT FORM SUBMISSION ---
+        function submitForm(event) {
+            event.preventDefault();
+            
+            // Extract inputs
+            const name = document.getElementById('apply-name').value;
+            const company = document.getElementById('apply-company').value;
+            const phone = document.getElementById('apply-phone').value;
+            const email = document.getElementById('apply-email').value;
+            const message = document.getElementById('apply-message').value;
+
+            // Simple validation log or mock send
+            console.log("Inquiry Submitted:", { name, company, phone, email, message });
+
+            // Display success banner
+            const banner = document.getElementById('submit-success-banner');
+            banner.classList.remove('hidden');
+
+            // Reset form fields
+            document.getElementById('apply-form').reset();
+
+            // Scroll banner smoothly into view
+            banner.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    </script>
+</body>
+</html>
